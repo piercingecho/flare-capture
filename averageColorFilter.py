@@ -1,8 +1,9 @@
 from PIL import Image
 from findContour import findShape
 import colorsys
+from hueFilter import hueFilter
 
-def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius):
+def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius, hue):
 
     try:
         avg_r = 0
@@ -62,11 +63,11 @@ def main():
     y_center = 160
     x_radius = 1 #this is the radius of the range to average, going equally on both sides of the center
     y_radius = 1
-
+    hue = 0
     
 
 
-    t_pixel = colorFilter(im, (x_center, y_center), t_size[0], t_size[1], x_radius, y_radius) #red
+    t_pixel = colorFilter(im, (x_center, y_center), t_size[0], t_size[1], x_radius, y_radius, hue) #red
     
 
 if __name__=='__main__':
