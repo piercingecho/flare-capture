@@ -35,16 +35,13 @@ def hueFilter(pixel, hue, huerange):
         if(h < 0):
             h += 360
     
-    #for purpose of debugging
-    print(h, s, v)
 
     #convert pixel to hsv
     #if saturation is 0, toss it
     #if hue is outside of the range wanted, toss it
     #
     if(huerange >= 180):
-        raise ValueError
-        print("Check hue range, it seems to include all hues.")
+        print("Warning: check hue range, it seems to include all hues.")
         return True
 
 

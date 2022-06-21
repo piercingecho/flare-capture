@@ -3,6 +3,9 @@ from findContour import findShape
 import colorsys
 from hueFilter import hueFilter
 
+
+hran = 180 #huerange
+
 def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius, hue):
 
     try:
@@ -12,7 +15,6 @@ def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius,
         
         if(imageXlength <= 0 or imageYlength <= 0):
             raise(ValueError)
-
         for i in range(xradius):
             for j in range(yradius):
                 #these are the pixel coordinates that are being worked with. Start halfway to the left/above the x/y respectively.
@@ -21,20 +23,22 @@ def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius,
                 tempy = center[1] + j - (int(yradius / 2)) 
                 if(tempx < imageXlength and tempy < imageYlength and tempx > 0 and tempy > 0): #check bounds
                     pixel = openImage.getpixel((tempx, tempy))
-                    r1 = pixel[0]
-                    g1 = pixel[1]
-                    b1 = pixel[2]
-                    #These take the previous average, and compute a new average with the newly added value.
-                    #multiply by the previous number of data points, add the value of the new data point, then divide by n again.
-                    avg_r = (avg_r * (i*xradius + j) + r1) / (i*xradius + j + 1) 
-                    avg_g = (avg_g * (i*xradius + j) + g1) / (i*xradius + j + 1)  
-                    avg_b = (avg_b * (i*xradius + j) + b1) / (i*xradius + j + 1) 
+                    
+                    #Hue filter takes hte desired hue and pixel, and finds whether that pixel falls int he desired hue or not.
+
+                    if(hueFilter(pixel, hue, hran)):
+                        #These take the previous average, and compute a new average with the newly added value.
+                        #multiply by the previous number of data points, add the value of the new data point, then divide by n again.
+                        avg_r = (pixel[0] * (i*xradius + j) + pixel[0]) / (i*xradius + j + 1) 
+                        avg_g = (pixel[1] * (i*xradius + j) + pixel[1]) / (i*xradius + j + 1)  
+                        avg_b = (pixel[2] * (i*xradius + j) + pixel[2]) / (i*xradius + j + 1) 
 
         print(f"Average pixel color (RGB): {avg_r} {avg_g} {avg_b})")
         
         return avg_r, avg_g, avg_b
                         
-    except:
+    except Exception as e:
+        print(e)
         print("Something's wrong with function AverageColor; exiting and returning black.")
         return 0, 0, 0
     
@@ -48,10 +52,8 @@ def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius,
     '''
 
 def main():
-    x = 150
-    y = 50
     value = -1
-    im = Image.open('shapes.png')
+    im = Image.open('Images/lakePic.jpg')
     t_size = im.size
     print(f"Dimensions: {t_size[0]} {t_size[1]}")
     
@@ -59,10 +61,10 @@ def main():
     ###Change these values!
     ###
 
-    x_center = 130 #this is the center of the RANGE TO AVERAGE, *not* the image as a whole!
-    y_center = 160
-    x_radius = 1 #this is the radius of the range to average, going equally on both sides of the center
-    y_radius = 1
+    x_center = 150  #this is the center of the RANGE TO AVERAGE, *not* the image as a whole!
+    y_center = 350
+    x_radius = 40 #this is the radius of the range to average, going equally on both sides of the center
+    y_radius = 40
     hue = 0
     
 
