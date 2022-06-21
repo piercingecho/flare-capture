@@ -1,11 +1,28 @@
-from picamera2 import Picamera2
+from picamera2 import *
+#from qt_gl_preview import *
+
 from datestring import datestring
 import os
+import time
 
 def takePic():
     picam2 = Picamera2()
+
     photostring = datestring()
     
+    #preview_config = picam2.preview_configuration()
+    still_config = picam2.still_configuration()
+    
+    #picam2.start_preview(Preview.QTGL)
+    #picam2.configure(preview_config)
+    picam2.configure(still_config)
+    picam2.start()
+    
+    #time.sleep(2)
+    #picam2.switch_mode_and_capture_file(still_config, photostring)
+    
+    picam2.capture_file( photostring)
+    '''
     picam2.start_preview(alpha = 192)
     picam2.capture(datestring + ".jpg")
     picam2.stop_preview()
@@ -25,12 +42,12 @@ def takePic():
     #camera.close()
     
     #below is creating a duplicate file with the same photo
-
+    
     newstring = photostring[0:len(photostring)-4]
     newstring += "_orig.jpg"
     os.system('cp ' + photostring + " " + newstring)
-
-    print("Photo taken and photocopy created")
+    '''
+    print("Photo taken")
     return photostring
 
 
