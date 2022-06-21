@@ -1,14 +1,28 @@
-from picamera import PiCamera
-import time
-from datetime import datetime
+from picamera2 import Picamera2
 from datestring import datestring
 import os
 
-def takePic(camera, num):
-    #camera = PiCamera()
+def takePic():
+    picam2 = Picamera2()
     photostring = datestring()
-    camera.capture(photostring)
-    camera.close()
+    
+    picam2.start_preview(alpha = 192)
+    picam2.capture(datestring + ".jpg")
+    picam2.stop_preview()
+
+    #image = picam2.capture_image()
+    
+
+    ##test this and see what you broke
+
+    request = picam2.capture_request()
+    #this request has been taken by the application and can now be used for example
+    request.save("main", "test.jpg")
+    #once done, the request must be returned
+    request.release
+
+    #camera.capture(photostring)
+    #camera.close()
     
     #below is creating a duplicate file with the same photo
 
@@ -18,3 +32,10 @@ def takePic(camera, num):
 
     print("Photo taken and photocopy created")
     return photostring
+
+
+def main():
+    takePic()
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,11 @@
+--2022-06-17 14:00:45--  https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg-fotki.yandex.ru%2Fget%2F5114%2F127863950.77%2F0_87274_1261ad98_orig.jpg
+Resolving external-content.duckduckgo.com (external-content.duckduckgo.com)... 40.89.244.234
+Connecting to external-content.duckduckgo.com (external-content.duckduckgo.com)|40.89.244.234|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [image/jpeg]
+Saving to: ‘index.html?u=https:%2F%2Fimg-fotki.yandex.ru%2Fget%2F5114%2F127863950.77%2F0_87274_1261ad98_orig.jpg’
+
+                    index.html?u=https:     [<=>                                                                           ]       0  --.-KB/s                                  index.html?u=https:%     [ <=>                                                                          ] 549.75K  2.66MB/s               index.html?u=https:%2F%2Fimg-fotki.yand     [  <=>                                                                         ] 639.88K  2.99MB/s    in 0.2s    
+
+2022-06-17 14:00:47 (2.99 MB/s) - ‘index.html?u=https:%2F%2Fimg-fotki.yandex.ru%2Fget%2F5114%2F127863950.77%2F0_87274_1261ad98_orig.jpg’ saved [655236]
+

@@ -1,4 +1,3 @@
-from picamera import PiCamera
 import RPi.GPIO as GPIO
 from takePic import *
 import os
@@ -6,15 +5,16 @@ from imageProcess import imageProcess
 
 BtnPin=11
 
-#current_img=0
 
 def detect(chn):
     print("Button pressed")
     
-    try:
-        camera = PiCamera() #load camera
+###
+###CHANGE THIS TRY/EXCEPT TO BE MORE ROBUST
+###
 
-        photoname = takePic(camera, 0) #change to current_img
+    try:
+        photoname = takePic() #change to current_img
         print("Camera finished")
         os.system('fbi '+ photoname) #display photo to screen
 

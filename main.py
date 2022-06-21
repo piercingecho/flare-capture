@@ -1,10 +1,6 @@
-import os
-from picamera import PiCamera
-import time
 from takePic import takePic
 from setup import *
-import RPi.GPIO as GPIO
-import os
+
 BtnPin = 11
 '''
 import numpy as np
