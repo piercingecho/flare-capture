@@ -1,5 +1,4 @@
 from PIL import Image
-from findContour import findShape
 
 def imageProcess(photostring):
 

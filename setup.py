@@ -1,8 +1,12 @@
 import RPi.GPIO as GPIO
-from takePic import takePic
 import os
+
+from takePic import takePic
 from imageProcess import imageProcess
 from edgeDetect import edgeDetect
+from shapeFinder import *
+from placePoint import *
+
 BtnPin=11
 
 
@@ -26,11 +30,13 @@ def detect(chn):
 
     photoname = takePic() #change to current_img
     print("Camera finished")
-    edgeDetect(photoname)
+    bwimage = edgeDetect(photoname)
+    point = shapeFinder(bwimage, 25) 
+    print(point)
     
-
+    placePoint("blackwhiteimg.jpg", point)
     #imageProcess(photoname) #image processing
-             
+     
 
 def destroy():
     GPIO.cleanup()                     # Release button resource
