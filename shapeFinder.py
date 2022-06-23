@@ -9,13 +9,28 @@ import numpy
 
 #This uses the numpy library, which has height, width as a tuple, differing from cv2's general method. Careful!
 
-def shapeFinder(image, sentinel): #as an image object
+def shapeFinder(image, sentinel, points, x_reverse = False): #as an image object
+    init_length = len(points)
+
+    #please. change variable names. im begging you
+    print(type(image))
+    if(type(image) == str):
+        image = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
+        
     print("Beginning search, this might take a while...")
 
-    for i in range(image.shape[1]): #width
-        for j in range(image.shape[0]): #height
+    for j in range(image.shape[1] - 1): #width, X VALUE BECAUSE CV2 IS STUPID
+        for i in range(image.shape[0] - 1): #height, Y VALUE
             #black and white image, so this can just be a 2d array
-            if(image[i][j] == 255): #check the grayscale color value, if it's 255 then it is definitely white
+            if(x_reverse == True):
+                used_j = image.shape[1] - 1 - j
+            else:
+                used_j = j
+            used_i = i
+
+
+
+            if(image[used_i][used_j] ==255): #check the grayscale color value, if it's 255 then it is definitely white
 
                 count = 1 #number of white pixels found
                 
@@ -24,11 +39,15 @@ def shapeFinder(image, sentinel): #as an image object
                 for a in range(10):
                     for b in range(25): #this will start at -12
                         #make sure that we only look at pixels that actually exist on the image
-                        if ((a + i) < image.shape[0]) and ((b + j - 12) < image.shape[1]) and ((b + j - 12) >= 0):
-                            if(image[i + a][j + b - 12] != 0):
+                        if ((a + used_i) < image.shape[0]) and ((b + used_j - 12) < image.shape[1]) and ((b + used_j - 12) >= 0):
+                            if(image[used_i + a][used_j + b - 12] ==255):
                                 count += 1
                 if count >= sentinel:
-                    return (i, j)
-
-    print("Didn't find anything, returning a bad point.")
-    return (-1, -1)
+                    points.append((used_j,used_i))
+                    break
+        if(len(points) > init_length):
+            break
+    
+    if(len(points) == init_length):
+        print("Didn't find anything, returning the list unchanged.")
+    return (points)
