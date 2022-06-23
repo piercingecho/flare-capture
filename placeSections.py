@@ -1,7 +1,7 @@
 from  matplotlib import pyplot as plt
 from matplotlib import image
 
-def placePoint(imgstring, points):
+def placeSect(imgstring, points):
     data = image.imread(imgstring)
     for point in points:
         plt.plot(point[0], point[1], marker='v', color="red")

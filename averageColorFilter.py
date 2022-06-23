@@ -1,40 +1,47 @@
 from PIL import Image
-from findContour import findShape
 import colorsys
 from hueFilter import hueFilter
+import cv2
+from grayscaleFilter import grayscaleFilter
+hran = 179 #huerange
 
-
-hran = 180 #huerange
-
-def colorFilter(openImage, center, imageXlength, imageYlength, xradius, yradius, hue):
+def colorFilter(openImage, center, xradius, yradius, hue):
+    
+    if type(openImage) == str:
+        openImage = cv2.imread(openImage)
+    
+    imageXlength = openImage.shape[0]
+    imageYlength = openImage.shape[1]
 
     try:
         avg_r = 0
         avg_g = 0
         avg_b = 0
-        
+        numPixels = 0 
         if(imageXlength <= 0 or imageYlength <= 0):
             raise(ValueError)
-        for i in range(xradius):
-            for j in range(yradius):
+        for i in range(xradius * 2):
+            for j in range(yradius * 2):
                 #these are the pixel coordinates that are being worked with. Start halfway to the left/above the x/y respectively.
                 #int conversion floors them because they're always positive
-                tempx = center[0] + i - (int(xradius / 2))
-                tempy = center[1] + j - (int(yradius / 2)) 
+                tempx = center[0] + i - (int(xradius))
+                tempy = center[1] + j - (int(yradius)) 
                 if(tempx < imageXlength and tempy < imageYlength and tempx > 0 and tempy > 0): #check bounds
-                    pixel = openImage.getpixel((tempx, tempy))
-                    
+                    pixel = openImage[tempx][tempy]
                     #Hue filter takes hte desired hue and pixel, and finds whether that pixel falls int he desired hue or not.
 
-                    if(hueFilter(pixel, hue, hran)):
+                    #if(hueFilter(pixel, hue, hran)):
+                    
+                    if grayscaleFilter(pixel):
                         #These take the previous average, and compute a new average with the newly added value.
                         #multiply by the previous number of data points, add the value of the new data point, then divide by n again.
-                        avg_r = (pixel[0] * (i*xradius + j) + pixel[0]) / (i*xradius + j + 1) 
-                        avg_g = (pixel[1] * (i*xradius + j) + pixel[1]) / (i*xradius + j + 1)  
-                        avg_b = (pixel[2] * (i*xradius + j) + pixel[2]) / (i*xradius + j + 1) 
+                        numPixels += 1
+                        avg_r = (pixel[0] * (numPixels - 1) + pixel[0]) / (numPixels) 
+                        avg_g = (pixel[1] * (numPixels - 1) + pixel[1]) / (numPixels)  
+                        avg_b = (pixel[2] * (numPixels - 1) + pixel[2]) / (numPixels)
+                        print(avg_r, pixel[0])
 
-        print(f"Average pixel color (RGB): {avg_r} {avg_g} {avg_b})")
-        
+        #print(f"Average pixel color (RGB): {avg_r} {avg_g} {avg_b})")
         return avg_r, avg_g, avg_b
                         
     except Exception as e:

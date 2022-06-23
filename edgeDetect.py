@@ -6,7 +6,7 @@ def edgeDetect(string):
     img =cv2.imread(string)
     print("Dimensions:", img.shape)
 
-    imgCanny=cv2.Canny(img, 65, 65) #50 low, 70 high maybe
+    imgCanny=cv2.Canny(img, 120,65) #50 low, 70 high maybe
     
     resize_and_display(imgCanny, 0.25)
 
