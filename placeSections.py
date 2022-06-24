@@ -1,11 +1,23 @@
 from  matplotlib import pyplot as plt
 from matplotlib import image
+from matplotlib import patches as patches
 
-def placeSect(imgstring, points):
-    data = image.imread(imgstring)
-    for point in points:
-        plt.plot(point[0], point[1], marker='v', color="red")
-    plt.imshow(data)
+def placeSect(imgstring, center, xrad, yrad):
+    
+    if(type(imgstring) == str):
+        img_sect = image.imread(imgstring)
+    else:
+        img_sect = imgstring
+
+    fig, ax = plt.subplots()
+
+    ax.imshow(img_sect)
+    
+    topLeft = (center[0] - xrad, center[1] - yrad)
+    rect = patches.Rectangle(topLeft, xrad * 2, yrad * 2, linewidth=1, edgecolor = 'r', facecolor = 'none')
+    
+    ax.add_patch(rect)
+
     plt.show()
 
 '''
