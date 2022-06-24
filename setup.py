@@ -2,7 +2,6 @@ import RPi.GPIO as GPIO
 import os
 
 from takePic import takePic
-from imageProcess import imageProcess
 from edgeDetect import edgeDetect
 from shapeFinder import *
 from placePoint import *
@@ -13,19 +12,13 @@ BtnPin=11
 
 
 def detect(chn):
-    print("Button pressed")
-
-    ###
-    ###fork
-    ###
-    
-
     parent = os.getpid()
-    print(parent)
-    #kill the child system and the window it created
+    GPIO.remove_event_detect(BtnPin)
+
+    print("Button pressed")
     os.system("kill " + str(parent + 1))
-    os.system("kill " + str(parent + 3))
-    os.system("kill " + str(parent + 4))
+    #kill the child system and the window it created
+    os.system("killall libcamera-hello")
 
     
     ###keep
@@ -81,7 +74,7 @@ def detect(chn):
     rightColor = avgColorFilter(photoname, rightTopLeft, xrad * 2, yrad * 2)
 
     print("Left bulb average color:", leftColor)
-    print("Right bulb average color:", rightColor)
+    print("Right bulb average color:`", rightColor)
 
 
 def destroy():
