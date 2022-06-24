@@ -8,7 +8,7 @@ from shapeFinder import *
 from placePoint import *
 from findBulbSections import *
 from placeSections import *
-from averageColorFilter import *
+from avgColorFilter import avgColorFilter
 BtnPin=11
 
 
@@ -54,20 +54,31 @@ def detect(chn):
     for i in range(4):
         l_points_to_plot.append((l_bulbs[i], points[0][1]))
     
-    placeSect(photoname, l_points_to_plot)
+    placePoint(photoname, l_points_to_plot)
     '''
 
     #now that we have our four x coordinates, we can find the centers & radii
     #of the two bulbs
     
+
+
     xrad = int((l_bulbs[1] - l_bulbs[0]) / 2) #half of the distance between these 2
     yrad = int(xrad * 8/7)  #take into account the likely error with vertical positioning
 
-    leftCenter = (l_bulbs[0] + xrad, points[0][1]) 
-    rightCenter = (l_bulbs[2] + xrad, points[1][1])
+    leftCenter = (l_bulbs[0] + (xrad), points[0][1]) 
+    rightCenter = (l_bulbs[2] + (xrad), points[1][1])
+
+
+    leftTopLeft = (leftCenter[0] - xrad, leftCenter[1] - yrad)
+    rightTopLeft = (rightCenter[0] - xrad, rightCenter[1] - yrad)
+
+    placeSect(photoname, leftCenter, xrad, yrad);
+    placeSect(photoname, rightCenter, xrad, yrad);
     
-    leftColor = colorFilter(photoname, leftCenter, xrad, yrad, 200) 
-    rightColor = colorFilter(photoname, rightCenter, xrad, yrad, 200)
+
+    #change the values here
+    leftColor = avgColorFilter(photoname, leftTopLeft, xrad * 2, yrad * 2) 
+    rightColor = avgColorFilter(photoname, rightTopLeft, xrad * 2, yrad * 2)
 
     print("Left bulb average color:", leftColor)
     print("Right bulb average color:", rightColor)
