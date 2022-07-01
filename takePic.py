@@ -6,22 +6,33 @@ import os
 import time
 
 def takePic():
+    
+    '''a'''
     picam2 = Picamera2()
-
     photostring = datestring()
     
     #preview_config = picam2.preview_configuration()
+    
+
+    '''b'''
     still_config = picam2.still_configuration()
     
     #picam2.start_preview(Preview.QTGL)
     #picam2.configure(preview_config)
+    
+    '''c'''
     picam2.configure(still_config)
     picam2.start()
     
     #time.sleep(2)
     #picam2.switch_mode_and_capture_file(still_config, photostring)
     
+    '''d'''
     picam2.capture_file( photostring)
+    
+
+
+
     '''
     picam2.start_preview(alpha = 192)
     picam2.capture(datestring + ".jpg")
