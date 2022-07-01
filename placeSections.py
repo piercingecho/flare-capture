@@ -2,7 +2,7 @@ from  matplotlib import pyplot as plt
 from matplotlib import image
 from matplotlib import patches as patches
 
-def placeSect(imgstring, center, xrad, yrad):
+def placeSects(imgstring, center, xrad, yrad):
     
     if(type(imgstring) == str):
         img_sect = image.imread(imgstring)
@@ -12,11 +12,19 @@ def placeSect(imgstring, center, xrad, yrad):
     fig, ax = plt.subplots()
 
     ax.imshow(img_sect)
-    
-    topLeft = (center[0] - xrad, center[1] - yrad)
-    rect = patches.Rectangle(topLeft, xrad * 2, yrad * 2, linewidth=1, edgecolor = 'r', facecolor = 'none')
-    
-    ax.add_patch(rect)
+    if(type(center) == list):
+        for bulb in center: #loop over, if "center" is a list of centers.
+            print("Bulb x, y:", bulb[0], bulb[1])
+            topLeft = (bulb[0] - xrad, bulb[1] - yrad)
+            rect = patches.Rectangle(topLeft, xrad * 2, yrad * 2, linewidth=1, edgecolor = 'r', facecolor = 'none')
+            ax.add_patch(rect)
+    else:
+            topLeft = (center[0] - xrad, center[1] - yrad)
+            rect = patches.Rectangle(topLeft, xrad * 2, yrad * 2, linewidth=1, edgecolor = 'r', facecolor = 'none')
+            topLeft = (center[0] - xrad, center[1] - yrad)
+            rect = patches.Rectangle(topLeft, xrad * 2, yrad * 2, linewidth=1, edgecolor = 'r', facecolor = 'none')
+            ax.add_patch(rect)
+
 
     plt.show()
 
