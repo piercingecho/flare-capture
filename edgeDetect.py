@@ -4,11 +4,15 @@ from resize_and_display import *
 
 def edgeDetect(string):
     img =cv2.imread(string)
-    print("Dimensions:", img.shape)
 
-    imgCanny=cv2.Canny(img, 120,65) #50 low, 70 high maybe
+    imgCanny=cv2.Canny(img, 120,55) #50 low, 70 high maybe
     
-    resize_and_display(imgCanny, 0.25)
+
+    if(img.shape[0] > 1300 or img.shape[1] > 1300):
+        resize_and_display(imgCanny, 0.25)
+    else:
+        resize_and_display(imgCanny, 0.5)
+
 
     cv2.waitKey(0)
     cv2.imwrite('blackwhiteimg.jpg', imgCanny)
