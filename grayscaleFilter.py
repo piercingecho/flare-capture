@@ -5,8 +5,9 @@ def grayscaleFilter(pixel):
     cmax = max(pixel)
     cmin = min(pixel)
     delta = int(cmax) - int(cmin)
-    if(delta >= 65):
-        if(cmin < 220):
+    return True
+    if(delta >= 30):
+        if(cmin < 170):
             if(cmax > 100):
                 return True
         
