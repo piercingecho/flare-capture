@@ -9,10 +9,10 @@ import numpy
 
 #This uses the numpy library, which has height, width as a tuple, differing from cv2's general method. Careful!
 
-def shapeFinder(image, sentinel, points, y_range = -1, x_range = -1, ymin = 0, ymax = -1, xmin = 0, xmax = -1, x_reverse = False): #as an image object
+def shapeFinder(image, sentinel, points, yrange = 12, ymin = 0, ymax = -1, xmin = 0, xmax = -1, x_reverse = False): #as an image object
     init_length = len(points)
     
-     
+    
 
     #please. change variable names. im begging you
     if(type(image) == str):
@@ -20,20 +20,6 @@ def shapeFinder(image, sentinel, points, y_range = -1, x_range = -1, ymin = 0, y
         
     print("Beginning search, this might take a while...")
     
-    #x_range is the width of square
-    #y_range is the height of square we use to compare against sentinel.
-
-    if(x_range == -1):
-        x_range = int((image.shape[1])**(1/2) / 4)
-    if(y_range == -1):
-        y_range = int((image.shape[0])**(1/2) / 4)
-
-    print("X range then Y range:", x_range)
-    print(y_range)
-    
-    if(sentinel == 30 and x_range * y_range < 30):
-        sentinel = 5
-
     if(ymax == -1):
         ymax = image.shape[0] - 1
     
@@ -60,25 +46,18 @@ def shapeFinder(image, sentinel, points, y_range = -1, x_range = -1, ymin = 0, y
 
             #was: used_i + ymin, used_j + xmin
             if(image[used_i][used_j] ==255): #check the grayscale color value, if it's 255 then it is definitely white
+
                 count = 1 #number of white pixels found
-               
                 
                 #pixel is white, so check surroundings to right
                 #and count number of other white pixels
-                for a in range(x_range): #x change
-                    for b in range(y_range * 2 + 1): #ychange, this will start at -12
+                for a in range(10):
+                    for b in range(yrange * 2 + 1): #this will start at -12
                         #make sure that we only look at pixels that actually exist on the image
-                        if(x_reverse == False):
-                            if (( used_i - y_range + b) < image.shape[0]) and ((used_j + a) < image.shape[1]) and ((b + used_i - y_range) >= 0):
-                                if(image[used_i - y_range + b][used_j + a] == 255):
-                                    count += 1
-                        else:
-                            if ((used_j - a) > 0) and ((used_i - y_range + i) < image.shape[0]) and ((used_i - y_range + i) > 0):
-                                if(image[used_i - y_range + b][used_j - a] == 255):
-                                    count += 1
-
+                        if ((a + used_i) < image.shape[0]) and ((b + used_j - yrange) < image.shape[1]) and ((b + used_j - 12) >= 0):
+                            if(image[used_i + a][used_j + b - yrange] ==255):
+                                count += 1
                 if count >= sentinel:
-                    print(f"[{used_j}, {used_i}]", end = "     ")
                     points.append((used_j,used_i))
                     break
         if(len(points) > init_length):
@@ -86,5 +65,5 @@ def shapeFinder(image, sentinel, points, y_range = -1, x_range = -1, ymin = 0, y
     
     if(len(points) == init_length):
         print("Didn't find anything, returning the list unchanged.")
-        return (-1,-1)
+        return points
     return points[len(points) - 1]

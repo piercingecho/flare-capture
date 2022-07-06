@@ -1,33 +1,59 @@
 from picamera2 import *
+#from picamera import PiCamera
 #from qt_gl_preview import *
 
 from datestring import datestring
 import os
 import time
-
+import cv2
+from picamera2 import Picamera2
+from picamera import PiCamera
 def takePic():
     
-    '''a'''
+    '''
+    photostring="test.jpg" #datestring()
+    cam=cv2.VideoCapture()
+    print(cam.read())
+
+    result, image =cam.read()
+    if result:
+        print("A")
+        cv2.imshow("Preview", image)
+        cv2.waitKey(2)
+        cv2.imwrite(photostring,image)
+
+    else:
+        print("No image detected, try again")
+        photostring = takePic()
+    '''
+    
+    '''
+    photostring=datestring()
+    picam=PiCamera()
+    picam.start_preview()
+    time.sleep(5)
+    picam.capture(photostring)
+    picam.stop_preview()
+    '''
+
+    #before everything broke
+    
     picam2 = Picamera2()
     photostring = datestring()
     
     #preview_config = picam2.preview_configuration()
     
-
-    '''b'''
     still_config = picam2.still_configuration()
     
     #picam2.start_preview(Preview.QTGL)
     #picam2.configure(preview_config)
     
-    '''c'''
     picam2.configure(still_config)
     picam2.start()
     
     #time.sleep(2)
     #picam2.switch_mode_and_capture_file(still_config, photostring)
     
-    '''d'''
     picam2.capture_file( photostring)
     
 

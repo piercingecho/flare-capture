@@ -7,7 +7,7 @@ from inputLoop import inputLoop
 from bulbBulbAlg import bulbBulbAlg
 from bulbChannelAlg import bulbChannelAlg
 from threeBulbsAlg import threeBulbsAlg
-
+from picamera import PiCamera
 
 BtnPin=11
 
@@ -21,7 +21,7 @@ def detect(chn):
     #kill the child system and the window it created
     os.system("killall libcamera-hello")
 
-    
+     
 
     photoname = takePic()
     print("Camera finished")
@@ -47,9 +47,9 @@ def setup():
     pid = os.fork()
     if(pid < 0):
         #error, set up later
-        pass
         exit(1)
     elif(pid == 0):
+        
         os.system("libcamera-hello -t 0")
     else:
         
@@ -58,3 +58,5 @@ def setup():
         GPIO.setup(BtnPin, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Set BtnPin's mode is input, and pull up to high level(3.3V)
         GPIO.add_event_detect(BtnPin, GPIO.FALLING, callback=detect) #, bouncetime = 2 
         print("Ready for photo! Click button for a still image.")
+        
+        

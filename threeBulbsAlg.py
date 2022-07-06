@@ -23,25 +23,29 @@ def threeBulbsAlg(photoname):
     #part, with bounds so it recognizes only the top bulb.
     
 
-    halfofrange = int(bwimage.shape[1] / 10)
+    halfofrange = int(bwimage.shape[1] / 20)
     #this was 125 when workign with gigantic images, it's crashing the program when it's tiny. So we're reducing its size proportionally based on the image size as a whole lol    
+    
+    top_edges = [topLeftEdge, topRightEdge]
 
-    if(abs(topLeftEdge[1] - topRightEdge[1]) > bwimage.shape[1] / 5):
+    if(abs(topLeftEdge[1] - topRightEdge[1]) > bwimage.shape[1] / 15):
         top_edges = [];
         if(topLeftEdge[1] > topRightEdge[1]): #right is top
             topLeftEdge = shapeFinder(bwimage, 30, top_edges, ymin = topRightEdge[1] - halfofrange, ymax = topRightEdge[1] + halfofrange)
-            top_edges.append(topLeftEdge);
+            #top_edges.append(topLeftEdge);
             top_edges.append(topRightEdge);
         else: #left was top
-            top_edges = []
             top_edges.append(topLeftEdge);
             topRightEdge = shapeFinder(bwimage, 30, top_edges, x_reverse = True, ymin = topLeftEdge[1] - halfofrange, ymax = topLeftEdge[1] + halfofrange);
-            top_edges.append(topRightEdge);
+            #top_edges.append(topRightEdge); THIS HAPPENS IN POINTFINDER
     
+
+    print(top_edges)
+
     l_topbulbs = findBulbSections(top_edges)
 
-    xrad = int((l_topbulbs[1] - l_topbulbs[0]) / 2)
-    yrad = int(xrad * 8/7)
+    xrad = int((l_topbulbs[1] - l_topbulbs[0]) / 2 )
+    yrad = int(xrad * 8/7 )
 
     #top left center, top rigth center.
     tlCenter = (l_topbulbs[0] + xrad, top_edges[0][1])
@@ -60,10 +64,10 @@ def threeBulbsAlg(photoname):
     #Using that and the pixel values, we find the number of pixels to go down to repeat the process.
 
 
-    effectiveDist = int(fullXDist * 2 / 7)
+    effectiveDist = int(fullXDist * 3 / 7)
 
 
-    middleLeftEdge = shapeFinder(bwimage, 30, top_edges, ymin = tlCenter[1] + effectiveDist - halfofrange, ymax = tlCenter[1] + effectiveDist + 150)
+    middleLeftEdge = shapeFinder(bwimage, 30, top_edges, ymin = tlCenter[1] + effectiveDist - halfofrange, ymax = tlCenter[1] + effectiveDist + halfofrange)
     middleRightEdge = shapeFinder(bwimage, 30, top_edges, ymin = trCenter[1] + effectiveDist - halfofrange, ymax = trCenter[1]  + effectiveDist + halfofrange, x_reverse = True)
     
     mid_edges = [middleLeftEdge, middleRightEdge]
@@ -77,7 +81,8 @@ def threeBulbsAlg(photoname):
 
     bottomLeftEdge = shapeFinder(bwimage, 30, top_edges, ymin = mlCenter[1] + effectiveDist - halfofrange, ymax = mlCenter[1] + effectiveDist + halfofrange)
     bottomRightEdge = shapeFinder(bwimage, 30, top_edges, ymin = mrCenter[1] + effectiveDist - halfofrange, ymax = mrCenter[1]  + effectiveDist + halfofrange, x_reverse = True)
-    print("Types:", type(bottomLeftEdge), type(bottomLeftEdge[1])) 
+    
+
     bot_edges = [bottomLeftEdge, bottomRightEdge]
     l_botbulbs = findBulbSections(bot_edges)
 
