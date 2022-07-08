@@ -4,7 +4,7 @@ from placePoint import *
 from findBulbs import *
 from placeSections import *
 from avgColorFilter import avgColorFilter
-
+from bulbsAvg import *
 import math
 
 
@@ -92,18 +92,19 @@ def threeBulbsAlg(photoname):
     
     l_centers = [tlCenter, trCenter, mlCenter, mrCenter, blCenter, brCenter]
     
-    placeSects(photoname, l_centers, xrad, yrad);
+    placeSects(photoname, l_centers, int(xrad / 2), int(yrad / 2));
     
     l_avgcolor = []
+    l_strings = ["topLeft", "topRight", "middleLeft", "middleRight", "bottomLeft", "bottomRight"]
 
     for center in l_centers:
         corner = (center[0] - xrad, center[1] - yrad) #top left corner
         l_avgcolor.append(avgColorFilter(photoname, corner, xrad * 2, yrad * 2))
 
-    for color in l_avgcolor:
-        print(color)
+    for i in range(len(l_avgcolor)):
+        print(l_strings[i], l_avgcolor[i])
 
-
+    colorAverage(l_avgcolor)
 
 
 
