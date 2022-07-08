@@ -1,6 +1,4 @@
-This program utilizes a.
 
-Research under Centre College, under Dr. David Toth. 
 
 System Hardware requirements:
 - Was tested on a raspberry pi 4, modifications may be necessary for it to work on other systems.
