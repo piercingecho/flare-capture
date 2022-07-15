@@ -4,7 +4,7 @@
 
 
 
-##System Software Requirements:
+## System Software Requirements:
 We imported:
 	- OpenCV
 	- Colorsys
@@ -22,7 +22,7 @@ pip install numpy
 pip install colorsys
 <get what we used for openCV and update it here>
 
-## Directions for Front-End Use:
+# Directions for Front-End Use:
 After powering on the system, the user will place a completed bulb test sheet under the system(as close to the center as possible). Pull every module from GitHub into a giving directory. 
 
 The user will then run the "main.py" function and wait for a preview of the camera to appear. Once the preview appears, the user is allowed to move the strip however much they want in order for the strip to be alligned with the camera. 
