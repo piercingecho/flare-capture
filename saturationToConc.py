@@ -34,12 +34,12 @@ def main():
     lowpix = (111, 128, 90) #30 satur.
     highpix = (78, 128, 13) #90 satur.
     #samplepix = (86,128,38) #60 satur.
-    samplepix = (111, 128, 90) #30 satur.
+    samplepix = (120, 118, 60) #50 satur.
     highc = 100
-    lowc = 200
+    lowc = 0
     print("Low concentration:", lowc);
     print("High concentration:", highc);
-    print("Test:",saturation_to_conc(lowpix, highpix, samplepix, highc, lowc))
+    print("Test:",saturation_to_conc(lowpix, highpix, samplepix, lowc, highc))
 
 if __name__ == '__main__':
     main()

@@ -6,7 +6,8 @@ from placeSections import *
 from avgColorFilter import avgColorFilter
 from bulbsAvg import *
 import math
-
+from findConcentrations import *
+from saturationToConc import *
 
 def threeBulbsAlg(photoname):
     bwimage = edgeDetect(photoname)
@@ -51,6 +52,7 @@ def threeBulbsAlg(photoname):
     tlCenter = (l_topbulbs[0] + xrad, top_edges[0][1])
     trCenter = (l_topbulbs[2] + xrad, top_edges[1][1])
     
+    #this shows the top two, for debugging purposes.
     placeSects(photoname, [tlCenter, trCenter], xrad, yrad);
 
 
@@ -76,8 +78,8 @@ def threeBulbsAlg(photoname):
     mlCenter = (l_midbulbs[0] + xrad, mid_edges[0][1])
     mrCenter = (l_midbulbs[2] + xrad, mid_edges[1][1])
 
-    #debug line
-    placeSects(photoname, [tlCenter, trCenter, mlCenter, mrCenter], xrad, yrad);
+    #another debug line
+    #placeSects(photoname, [tlCenter, trCenter, mlCenter, mrCenter], xrad, yrad);
 
     bottomLeftEdge = shapeFinder(bwimage, 30, top_edges, ymin = mlCenter[1] + effectiveDist - halfofrange, ymax = mlCenter[1] + effectiveDist + halfofrange)
     bottomRightEdge = shapeFinder(bwimage, 30, top_edges, ymin = mrCenter[1] + effectiveDist - halfofrange, ymax = mrCenter[1]  + effectiveDist + halfofrange, x_reverse = True)
@@ -103,9 +105,16 @@ def threeBulbsAlg(photoname):
 
     for i in range(len(l_avgcolor)):
         print(l_strings[i], l_avgcolor[i])
+    #colorAverage(l_avgcolor)
 
-    colorAverage(l_avgcolor)
-
+    substance = input("Which substance are you testing concentration for?")
+    try:
+        low, high = findConcentrations(substance)
+        sample = saturation_to_conc(l_avgcolor[1], l_avgcolor[3], l_avgcolor[5], low, high) 
+        print("Found sample concentration:", sample)
+    except Exception as e:
+        #print(e)
+        print("Didn't work. Maybe you typed the substance incorrectly?")
 
 
     #failed attempt at finding the other four by using trig lol
