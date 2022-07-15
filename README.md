@@ -25,17 +25,17 @@ pip install colorsys
 # Directions for Front-End Use:
 After powering on the system, the user will place a completed bulb test sheet under the system(as close to the center as possible). Pull every module from GitHub into a giving directory. 
 
-The user will then run the "main.py" function and wait for a preview of the camera to appear. Once the preview appears, the user is allowed to move the strip however much they want in order for the strip to be alligned with the camera. 
+The user will then run the "main.py" function and wait for a preview of the camera to appear. Once the preview appears, the user is allowed to move the strip however much they want in order for the strip to be alligned with the camera. Make sure that the camera shows the lines going horizontally between each pair of bulbs.
 
 When the user is ready, they will push the button and wait for the cannied image, which they can then exit out of. They should then enter the type of test they ran, which for now consists of the three bulb-to-bulb interactions. Later implementation will exist for the one-to-three bulb. 
 
 After waiting for the program to run, they should be met with multiple areas sectionedwith squares, each depicting a bulb. The program ends with giving each bulb's average RGB value, as well as the overall average between the left and right.
 
 
-## Directions for Download, etc:
+Directions for Download, etc:
 
 
-##Summary of Modules
+# Summary of Modules
 
 - main: calls setup and executes the rest of the program.
 - photomain630: takes an image, bypassing the need for the camera or button modules (the three programs described below).
@@ -45,7 +45,7 @@ After waiting for the program to run, they should be met with multiple areas sec
 - takePic: takes photo on raspberryPi using piCamera2 / libcamera.
 
 - edgeDetect: utilizes CV2 library's canny algorithm to find shapes through difference in color. Parameters optimized for detecting test slip.
-- input thing (find name): Asks which type of image the user submitted. For now, only the three bulb-to-bulb is relevant.
+- inputLoop: Asks which type of image the user submitted. For now, only the three bulb-to-bulb is relevant.
 
 - shapeFinder: takes in the canny image from edgeDetect. Appends a point to a list passed in, then exits. The way this works: it goes through every pixel of a cannied image, top-down then left-to-right. 
   [x reverse boolean makes this search right to left instead]. [it searches within ymin ymax, and xmin xmax]. 
@@ -56,6 +56,9 @@ After waiting for the program to run, they should be met with multiple areas sec
 - threeBulbAlg: Uses shapeFinder multiple times to find each part of the three bulbs. Afterwards, it uses the csv file and colors it collected to determine the concentration.
 
      Further in depth:
+	threeBulbAlg uses shapeFinder twice, the second time with x_reverse = True, in order to find what will likely be the top bulb of one side, and the bottom bulb of the opposing side. (If this doesn't make sense, hold the bulb structure at a slight angle and read about shapeFinder). From this, it determines the bulb that has a lower y value, and relocates the other side's bulb with a restricted ymin and ymax. From there, it uses findBulbSections to find the size of each bulb in pixels, then some simple math to find the centers of the top two bulbs. From there, we do a similar algorithm and restrict the y values to a slightly higher amount, so that we will be certain to find the center 2 bulbs then the bottom 2 bulbs.
+	
+	From there, we use avgColorFilter on each bulb in order to get their color values. We intend to later add in functionality with 
      
 
 
