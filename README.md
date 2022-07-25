@@ -6,6 +6,8 @@
 
 ## System Software Requirements:
 We imported:
+	- Python
+	- Pip 3
 	- OpenCV
 	- Colorsys
 	- Time
@@ -13,26 +15,35 @@ We imported:
 	- Numpy
 	- Matplotlib
 	- Math
+ 
+Below is a list of commands that should work to install all of these as needed:
 
-pip install time
-pip install math
-pip install matplotlib
-pip install RPi.GPIO
-pip install numpy
-pip install colorsys
-<get what we used for openCV and update it here>
+	1. sudo apt-update
+	2. sudo apt-install python3
+	3. sudo apt-install pip3
+	4. pip3 install time
+	5. pip3 install math
+	6. pip3 install matplotlib
+	7. pip3 install RPi.GPIO
+	8. pip3 install numpy
+	9. pip3 install colorsys
+	
+	10. sudo pip3 install python-opencv
+
 
 # Directions for Front-End Use:
 After powering on the system, the user will place a completed bulb test sheet under the system(as close to the center as possible). Pull every module from GitHub into a giving directory. 
 
 The user will then run the "main.py" function and wait for a preview of the camera to appear. Once the preview appears, the user is allowed to move the strip however much they want in order for the strip to be alligned with the camera. Make sure that the camera shows the lines going horizontally between each pair of bulbs.
 
+Note: each time an image appears, you must close out of the window before continuing.
+
 When the user is ready, they will push the button and wait for the cannied image, which they can then exit out of. They should then enter the type of test they ran, which for now consists of the three bulb-to-bulb interactions. Later implementation will exist for the one-to-three bulb. 
 
 After waiting for the program to run, they should be met with multiple areas sectionedwith squares, each depicting a bulb. The program ends with giving each bulb's average RGB value, as well as the overall average between the left and right.
 
+They will also be ased which type of substance they are testing for, and they will be prompted to type it in verbatim. For now, type in "Trypsin." This should give the expected concentration of the third bulb..
 
-Directions for Download, etc:
 
 
 # Summary of Modules
@@ -49,7 +60,7 @@ Directions for Download, etc:
 
 - shapeFinder: takes in the canny image from edgeDetect. Appends a point to a list passed in, then exits. The way this works: it goes through every pixel of a cannied image, top-down then left-to-right. 
   [x reverse boolean makes this search right to left instead]. [it searches within ymin ymax, and xmin xmax]. 
-  When it finds a white pixel from the canny, it then creates a "search box", length and width are xrange and yrange. This search box is positioned on the side of the pixel, so that the left side of the square is bisected by the pixel (or the right side, if x_reverse is true). In other words, it goes half of yrange up *and* down, while only going to one side for xrange.
+  When it finds a white pixel from the canny, it then creates a "search box", length and width are xrange and yrange. This search box is positioned on the side of the pixel, so that the left side of the square is bisected by the pixel (or the right side, if x reverse is true). In other words, it goes half of yrange up *and* down, while only going to one side for xrange.
   If this search finds enough ('sentinel' or more) white pixels in the search box, the initially found pixel is returned.
   
   

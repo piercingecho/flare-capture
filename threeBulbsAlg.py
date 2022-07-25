@@ -11,7 +11,7 @@ from saturationToConc import *
 
 def threeBulbsAlg(photoname):
     bwimage = edgeDetect(photoname)
-    print(bwimage.shape);
+    #print(bwimage.shape);
     top_edges = [];
     
     topLeftEdge = shapeFinder(bwimage, 30, top_edges, ymin = 10);
@@ -41,7 +41,7 @@ def threeBulbsAlg(photoname):
             #top_edges.append(topRightEdge); THIS HAPPENS IN POINTFINDER
     
 
-    print(top_edges)
+    #print(top_edges)
 
     l_topbulbs = findBulbSections(top_edges)
 
@@ -94,19 +94,32 @@ def threeBulbsAlg(photoname):
     
     l_centers = [tlCenter, trCenter, mlCenter, mrCenter, blCenter, brCenter]
     
-    placeSects(photoname, l_centers, int(xrad / 2), int(yrad / 2));
+    placeSects(photoname, l_centers, int(xrad/4), int(yrad/4));
     
     l_avgcolor = []
     l_strings = ["topLeft", "topRight", "middleLeft", "middleRight", "bottomLeft", "bottomRight"]
+    
+    #Previous: finds avg from the entire bulb.
 
+    '''
     for center in l_centers:
         corner = (center[0] - xrad, center[1] - yrad) #top left corner
         l_avgcolor.append(avgColorFilter(photoname, corner, xrad * 2, yrad * 2))
+    '''
 
+    #Current: finds avg from about 2/3 center in bulb.
+
+    for center in l_centers:
+        corner = (center[0] - int(xrad), center[1] - int(yrad))
+        l_avgcolor.append(avgColorFilter(photoname, corner, int(xrad*2), int(yrad*2 )))
+    #debugging stuff
+    '''
     for i in range(len(l_avgcolor)):
         print(l_strings[i], l_avgcolor[i])
-    #colorAverage(l_avgcolor)
+    '''
 
+    #colorAverage(l_avgcolor)
+    print(l_avgcolor[1], l_avgcolor[3], l_avgcolor[5])
     substance = input("Which substance are you testing concentration for?")
     try:
         low, high = findConcentrations(substance)

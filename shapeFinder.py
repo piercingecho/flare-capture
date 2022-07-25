@@ -28,12 +28,15 @@ def shapeFinder(image, sentinel, points, y_range = -1, x_range = -1, ymin = 0, y
     if(y_range == -1):
         y_range = int((image.shape[0])**(1/2) / 4)
 
+    '''
     print("X range then Y range:", x_range)
     print(y_range)
-    
-    if(sentinel == 30 and x_range * y_range < 30):
-        sentinel = 5
+    '''
 
+    if(sentinel == 30 and x_range * y_range < 30):#forgot what I was thinking when I made this
+        #sentinel = 5
+        sentinel = 7
+    
     if(ymax == -1):
         ymax = image.shape[0] - 1
     
@@ -78,7 +81,7 @@ def shapeFinder(image, sentinel, points, y_range = -1, x_range = -1, ymin = 0, y
                                     count += 1
 
                 if count >= sentinel:
-                    print(f"[{used_j}, {used_i}]", end = "     ")
+                    #print(f"[{used_j}, {used_i}]", end = "     ")
                     points.append((used_j,used_i))
                     break
         if(len(points) > init_length):

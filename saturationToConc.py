@@ -13,7 +13,10 @@ def saturation_to_conc(pixellow, pixelhigh, pixeltest, conclow, conchigh):
 
     print(saturations)
 
-    
+    print(colorsys.rgb_to_hsv(pixellow[0], pixellow[1], pixellow[2]))
+    print(colorsys.rgb_to_hsv(pixelhigh[0], pixelhigh[1], pixelhigh[2]))
+    print(colorsys.rgb_to_hsv(pixeltest[0], pixeltest[1], pixeltest[2]))
+ 
     #points for line to be created
     point1 = (saturations[0], conclow)
     point2 = (saturations[1], conchigh)
@@ -26,7 +29,7 @@ def saturation_to_conc(pixellow, pixelhigh, pixeltest, conclow, conchigh):
         print("Same color for two samples; something is likely wrong. Is your test turned the right way?")
 
     #y - y1 = m(x - x1)
-    sampleconc = conclow + (saturations[2]-saturations[0]) * m
+    sampleconc = conclow + ((saturations[2]-saturations[0]) * m)
     
     return sampleconc
 

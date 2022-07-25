@@ -1,2 +1,5 @@
 Substance,Lowconcentration,Highconcentration
-Trypsin,0,50
+Trypsin,0,0.000865
+Test2,0.00000137,0.108152
+Test3,20,40
+Test4,0,100

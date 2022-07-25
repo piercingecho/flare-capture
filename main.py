@@ -1,6 +1,6 @@
 from takePic import takePic
 from setup import *
-
+import os
 BtnPin = 11
 '''
 import numpy as np
@@ -12,6 +12,7 @@ import cv2
 '''
 
 def main():
+    #os.system("export PYTHONPATH=/home/centrepi/Research2022/bulbDetect")
     setup()
     try:
         while 1==1:
